@@ -1,0 +1,37 @@
+Manage customers
+	Create customer
+		Title
+		First name
+		Last name
+		Email address
+		Phone number
+		Credit card details
+		Passport details?
+		User account to save customer
+		FF points
+		FF number
+		Special considerations
+	Update customer
+	Priority list
+	No-fly list
+Book flights
+	Where from
+	Where to
+	When (date/time)
+	Flight duration
+	Layover
+	Seat selections
+	Pricing (early booking, etc.)
+	Flight insurance
+	Luggage
+	Dependants
+	Pets
+	FF credit
+	Payment
+Manage flight reservations
+	Cancel tickets 
+	Upgrade seats
+Purchase in-flight services
+	Food/Drinks
+	Novelty items from in-flight magazine
+		Different option for different class seats
