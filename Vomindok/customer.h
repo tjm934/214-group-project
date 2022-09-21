@@ -2,7 +2,7 @@
 #define CUSTOMER_H_INCLUDED
 
 class Customer {
-private:
+public:
     string title;
     string firstName;
     string lastName;
@@ -11,7 +11,7 @@ private:
     string cardDetails[3];
     int passportNumber;
     int frequentFlyerPoints;
-public:
+
     Customer(string newTitle, string newFirstName, string newLastName, string newEmailAddress, string newPhoneNumber, string[] newCardDetails, int passportNumber, int frequentFlyerPoints) {
         title = newTitle;
         firstName = newFirstName;
