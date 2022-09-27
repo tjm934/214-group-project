@@ -3,6 +3,8 @@
 #include <iostream>
 #include <ctime>
 
+using namespace std;
+
 class Flight {
 public:
     string startLocation;
@@ -11,7 +13,7 @@ public:
     int flightDurationInHours;
     string layoverLocation;
     int numberOfSeats;
-    string seatArea
+    string seatCode;
 };
 
 
