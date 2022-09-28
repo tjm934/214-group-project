@@ -6,15 +6,23 @@
 
 using namespace std;
 
+void userScreen(Customer *toLoad) {
+
+}
+
+void manageSystem() {
+
+}
+
 int main()
 {
     vector<Customer> listOfCustomers;
     bool hasntFoundCustomer = true;
-    ifstream inputFromDataFile("customersInfo");
+    ifstream inputFromDataFile("info");
     ofstream outputToDataFile;
 
     if(!inputFromDataFile.fail()) {
-        outputToDataFile.open("customersInfo");
+        outputToDataFile.open("info");
     }
 
     Customer customerToLoad;
@@ -26,13 +34,13 @@ int main()
     int choice = 0;
     cout << "1: Login as existing customer" << endl;
     cout << "2: Create new customer" << endl;
-    cout << "3: Exit" << endl;
+    cout << "3: Manage system" << endl;
+    cout << "Any other key: Exit" << endl;
     cin >> choice;
-    switch(choice) {
-    case 1:
+    if(choice == 1) {
+        cout << "Enter username: ";
         string username;
         string password;
-        cout << "Enter username: ";
         cin >> username;
         cout << "Enter password: ";
         cin >> password;
@@ -48,20 +56,21 @@ int main()
              }
         }
         cout << "Couldn't find user, please create new user" << endl;
-        break;
-    case 2:
+    }else if(choice == 2) {
+        cout << "Enter username: ";
         string userName;
         string title;
         string firstName;
         string lastName;
         string emailAddress;
         string phoneNumber;
-        string password;
+        string passWord;
         string cardDetails;
-        cout << "Enter username: ";
+        int passportNumber;
+        int frequentFlyerPoints;
         cin >> userName;
         cout << "Enter password: ";
-        cin >> password;
+        cin >> passWord;
         cout << "Enter title: ";
         cin >> title;
         cout << "Enter first name: ";
@@ -74,8 +83,10 @@ int main()
         cin >> phoneNumber;
         cout << "Enter card details(in format number;expiry date;cv): ";
         cin >> cardDetails;
-        outputToDataFile << userName << title << firstName << lastName << emailAddress << phoneNumber << password << cardDetails << passportNumber << frequentFlyerPoints;
-        customerToLoad.password = password;
+        cout << "Enter passport number: ";
+        cin >> passportNumber;
+        outputToDataFile << userName << title << firstName << lastName << emailAddress << phoneNumber << passWord << cardDetails << passportNumber << 0;
+        customerToLoad.password = passWord;
         customerToLoad.title = title;
         customerToLoad.firstName = firstName;
         customerToLoad.lastName = lastName;
@@ -83,6 +94,15 @@ int main()
         customerToLoad.phoneNumber = phoneNumber;
         customerToLoad.cardDetails = cardDetails;
         listOfCustomers.push_back(customerToLoad);
+        userScreen(user)
+    }else if(choice == 3) {
+        const string adminPassword = "vomindok";
+        string enteredAdminPassword;
+        cout << "Enter administrator password: ";
+        cin >> enteredAdminPassword;
+        if(enteredAdminPassword == adminPassword) {
+            manageSystem();
+        }
     }
     return 0;
 }

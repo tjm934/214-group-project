@@ -16,7 +16,7 @@ public:
     string password;
     string cardDetails;
     int passportNumber;
-    int frequentFlyerPoints;
+    int frequentFlyerPoints = 0;
 };
 
 #endif // CUSTOMER_H_INCLUDED
