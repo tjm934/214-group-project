@@ -11,7 +11,7 @@ public:
     string forUsername;
     string startLocation;
     string endLocation;
-    time_t flightDateAndTime;
+    string flightDate;
     int flightDurationInHours;
     string layoverLocation;
     int numberOfSeats;
@@ -19,11 +19,11 @@ public:
     double price;
 
     void inputFlightFromFile(ifstream *inputFile) {
-        *inputFile >> forUsername >> startLocation >> endLocation >> flightDateAndTime >> flightDurationInHours >> layoverLocation >> numberOfSeats >> seatCode >> price;
+        *inputFile >> forUsername >> startLocation >> endLocation >> flightDate >> flightDurationInHours >> layoverLocation >> numberOfSeats >> seatCode >> price;
     }
 
     void outputFlightToFile(ofstream *outputFile) {
-        *outputFile << forUsername << ' ' << startLocation << ' ' << endLocation << ' ' << flightDateAndTime << ' ' << flightDurationInHours << ' ' << layoverLocation << ' ';
+        *outputFile << forUsername << ' ' << startLocation << ' ' << endLocation << ' ' << flightDate << ' ' << flightDurationInHours << ' ' << layoverLocation << ' ';
         *outputFile << numberOfSeats << ' ' << seatCode << ' ' << price << endl;
     }
 };

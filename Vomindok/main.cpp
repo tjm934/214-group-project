@@ -26,9 +26,10 @@ void userScreen(Customer *toLoad) {
         int choiceNumber = 0;
         cout << "1: Update details" << endl;
         cout << "2: Book flight" << endl;
-        cout << "3: Manage flight reservations" << endl;
-        cout << "4: Purchase in-flight services" << endl;
-        cout << "5: Exit" << endl;
+        cout << "3: Change seats" << endl;
+        cout << "4: Cancel booking" << endl;
+        cout << "5: Purchase in-flight services" << endl;
+        cout << "6: Exit" << endl;
         cin.clear();
         cin.ignore();
         cin >> choiceNumber;
@@ -58,8 +59,29 @@ void userScreen(Customer *toLoad) {
             cout << "Enter end location: ";
             cin >> flightToLoad->endLocation;
             cout << "Enter layover location: ";
+            cin >> flightToLoad->layoverLocation;
+            cout << "Enter number of seats: ";
+            cin >> flightToLoad->numberOfSeats;
+            cout << "Enter seat code(example A1, first row first seat, for multiple rows A1,G6): ";
+            cin >> flightToLoad->seatCode;
+            cout << "Flight duration is " << (flightToLoad->endLocation.length() - flightToLoad->startLocation.length()) + 1 << endl;
+            flightToLoad->flightDurationInHours = (flightToLoad->endLocation.length() - flightToLoad->startLocation.length()) + 1;
+            cout << "Enter type of booking: ";
+            string typeOfBooking;
+            cin >> typeOfBooking;
+            if(typeOfBooking == "early") {
+                flightToLoad->price = flightToLoad->flightDurationInHours*75;
+            }else if(typeOfBooking == "normal") {
+                flightToLoad->price = flightToLoad->flightDurationInHours*100;
+            }else if(typeOfBooking == "late") {
+                flightToLoad->price = flightToLoad->flightDurationInHours*125;
+            }
+            cout << "Enter the date for flight(day/month): ";
+            cin >> flightToLoad->flightDate;
         }else if(choiceNumber == 3) {
-
+            cout << "Enter new number of seats: ";
+            cin >> flightToLoad->numberOfSeats;
+            cout << "Seats upgraded, upgrade price charged to card" << endl;
         }else if(choiceNumber == 4) {
 
         }else{
