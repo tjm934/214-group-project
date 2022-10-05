@@ -24,12 +24,14 @@ void userScreen(Customer *toLoad) {
 
     while(dontExitLoop) {
         int choiceNumber = 0;
+        cout << "==============================" << endl;
         cout << "1: Update details" << endl;
         cout << "2: Book flight" << endl;
-        cout << "3: Change seats" << endl;
+        cout << "3: Upgrade seats" << endl;
         cout << "4: Cancel booking" << endl;
         cout << "5: Purchase in-flight services" << endl;
         cout << "6: Exit" << endl;
+        cout << "==============================" << endl;
         cin.clear();
         cin.ignore();
         cin >> choiceNumber;
@@ -53,37 +55,88 @@ void userScreen(Customer *toLoad) {
             cout << "Re-enter passport number: ";
             cin >> toLoad->passportNumber;
         }else if(choiceNumber == 2) {
-            flightToLoad->forUsername = toLoad->userName;
+            flightToLoad.forUsername = toLoad->userName;
             cout << "Enter start location: ";
-            cin >> flightToLoad->startLocation;
+            cin >> flightToLoad.startLocation;
             cout << "Enter end location: ";
-            cin >> flightToLoad->endLocation;
+            cin >> flightToLoad.endLocation;
             cout << "Enter layover location: ";
-            cin >> flightToLoad->layoverLocation;
+            cin >> flightToLoad.layoverLocation;
             cout << "Enter number of seats: ";
-            cin >> flightToLoad->numberOfSeats;
+            cin >> flightToLoad.numberOfSeats;
             cout << "Enter seat code(example A1, first row first seat, for multiple rows A1,G6): ";
-            cin >> flightToLoad->seatCode;
-            cout << "Flight duration is " << (flightToLoad->endLocation.length() - flightToLoad->startLocation.length()) + 1 << endl;
-            flightToLoad->flightDurationInHours = (flightToLoad->endLocation.length() - flightToLoad->startLocation.length()) + 1;
+            cin >> flightToLoad.seatCode;
+            cout << "Flight duration is " << (flightToLoad.endLocation.length() - flightToLoad.startLocation.length()) + 1 << " hours " << endl;
+            flightToLoad.flightDurationInHours = (flightToLoad.endLocation.length() - flightToLoad.startLocation.length()) + 1;
             cout << "Enter type of booking: ";
             string typeOfBooking;
             cin >> typeOfBooking;
             if(typeOfBooking == "early") {
-                flightToLoad->price = flightToLoad->flightDurationInHours*75;
+                flightToLoad.price = flightToLoad.flightDurationInHours*75;
             }else if(typeOfBooking == "normal") {
-                flightToLoad->price = flightToLoad->flightDurationInHours*100;
+                flightToLoad.price = flightToLoad.flightDurationInHours*100;
             }else if(typeOfBooking == "late") {
-                flightToLoad->price = flightToLoad->flightDurationInHours*125;
+                flightToLoad.price = flightToLoad.flightDurationInHours*125;
             }
             cout << "Enter the date for flight(day/month): ";
-            cin >> flightToLoad->flightDate;
+            cin >> flightToLoad.flightDate;
+            listOfFlights.push_back(flightToLoad);
         }else if(choiceNumber == 3) {
-            cout << "Enter new number of seats: ";
-            cin >> flightToLoad->numberOfSeats;
-            cout << "Seats upgraded, upgrade price charged to card" << endl;
-        }else if(choiceNumber == 4) {
+            int flightsCounter = 1;
+            cout << " | To              | From" << endl;
+            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
+                if(iter->forUsername == toLoad->userName) {
+                    cout << flightsCounter << ": " << iter->startLocation << "           " << iter->endLocation << endl;
+                    flightsCounter++;
+                }
+            }
+            int choice = 0;
+            cout << "Which booked flight do you want to increase?" << endl;
+            cin >> choice;
+            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
+                if(iter->forUsername == toLoad->userName) {
+                    if(flightsCounter == choice) {
+                        cout << "Enter new number of seats: ";
+                        cin >> iter->numberOfSeats;
+                        cout << "Seats upgraded, upgrade price will charged to card" << endl;
+                    }
+                    flightsCounter++;
+                }
+            }
 
+        }else if(choiceNumber == 4) {
+            int flightsCounter = 1;
+            cout << " | To              | From" << endl;
+            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
+                if(iter->forUsername == toLoad->userName) {
+                    cout << flightsCounter << ": " << iter->startLocation << " " << iter->endLocation << endl;
+                    flightsCounter++;
+                }
+            }
+            int choice = 0;
+            int i = 0;
+            cout << "Which booked flight do you want to cancel?" << endl;
+            cin >> choice;
+            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
+                if(iter->forUsername == toLoad->userName) {
+                    if(flightsCounter == choice) {
+                        cout << "yes" << endl;
+                        listOfFlights.erase(iter);
+                    }
+                    flightsCounter++;
+                }
+            }
+        }else if(choiceNumber == 5) {
+            int insignificant;
+            cout << "================================" << endl;
+            cout << "What would you like to purchase?" << endl;
+            cout << "1: Chips" << endl;
+            cout << "2: Soft drink" << endl;
+            cout << "3: Water" << endl;
+            cout << "4: Alcoholic beverages" << endl;
+            cout << "================================" << endl;
+            cin >> insignificant;
+            cout << "Flight attendant with cart is now coming towards your seat" << endl << "Please choose from the options available when they arrive" << endl;
         }else{
             ofstream outputToFlightsFile(flightsDataFile);
             for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
@@ -121,10 +174,12 @@ int main()
 
     while(hasntExited) {
         int choice = 0;
+        cout << "==============================" << endl;
         cout << "1: Login as existing customer" << endl;
         cout << "2: Create new customer" << endl;
         cout << "3: Manage system" << endl;
         cout << "4: Exit" << endl;
+        cout << "==============================" << endl;
         cin >> choice;
 
         if(choice == 1) {
@@ -174,8 +229,8 @@ int main()
             cin >> customerToLoad.cardDetails;
             cout << "Enter passport number: ";
             cin >> customerToLoad.passportNumber;
-            listOfCustomers.push_back(customerToLoad);
             userScreen(&customerToLoad);
+            listOfCustomers.push_back(customerToLoad);
         }else if(choice == 3) {
             const string adminPassword = "vomindok";
             string enteredAdminPassword;
