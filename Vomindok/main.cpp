@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <iomanip>
+#include <cstdlib>
 #include "customer.h"
 #include "flight.h"
 
@@ -32,8 +34,7 @@ void userScreen(Customer *toLoad) {
         cout << "5: Purchase in-flight services" << endl;
         cout << "6: Exit" << endl;
         cout << "==============================" << endl;
-        cin.clear();
-        cin.ignore();
+
         cin >> choiceNumber;
         if(choiceNumber == 1) {
             cout << "Re-enter new username: ";
@@ -66,16 +67,16 @@ void userScreen(Customer *toLoad) {
             cin >> flightToLoad.numberOfSeats;
             cout << "Enter seat code(example A1, first row first seat, for multiple rows A1,G6): ";
             cin >> flightToLoad.seatCode;
-            cout << "Flight duration is " << (flightToLoad.endLocation.length() - flightToLoad.startLocation.length()) + 1 << " hours " << endl;
-            flightToLoad.flightDurationInHours = (flightToLoad.endLocation.length() - flightToLoad.startLocation.length()) + 1;
-            cout << "Enter type of booking: ";
+            cout << "Flight duration is " << abs(static_cast<int>(flightToLoad.endLocation.length() - flightToLoad.startLocation.length())) + 1 << " hours " << endl;
+            flightToLoad.flightDurationInHours = abs(static_cast<int>(flightToLoad.endLocation.length() - flightToLoad.startLocation.length())) + 1;
+            cout << "Enter type of booking(early, first-class, economy): ";
             string typeOfBooking;
             cin >> typeOfBooking;
             if(typeOfBooking == "early") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*75;
-            }else if(typeOfBooking == "normal") {
+            }else if(typeOfBooking == "economy") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*100;
-            }else if(typeOfBooking == "late") {
+            }else if(typeOfBooking == "first class") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*125;
             }
             cout << "Enter the date for flight(day/month): ";
@@ -86,13 +87,14 @@ void userScreen(Customer *toLoad) {
             cout << " | To              | From" << endl;
             for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
                 if(iter->forUsername == toLoad->userName) {
-                    cout << flightsCounter << ": " << iter->startLocation << "           " << iter->endLocation << endl;
+                    cout << flightsCounter << ": " << setw(16) << iter->startLocation << "  " << iter->endLocation << endl;
                     flightsCounter++;
                 }
             }
             int choice = 0;
             cout << "Which booked flight do you want to increase?" << endl;
             cin >> choice;
+            flightsCounter = 1;
             for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
                 if(iter->forUsername == toLoad->userName) {
                     if(flightsCounter == choice) {
@@ -109,7 +111,7 @@ void userScreen(Customer *toLoad) {
             cout << " | To              | From" << endl;
             for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
                 if(iter->forUsername == toLoad->userName) {
-                    cout << flightsCounter << ": " << iter->startLocation << " " << iter->endLocation << endl;
+                    cout << flightsCounter << ": " << setw(16) << iter->startLocation << "  " << iter->endLocation << endl;
                     flightsCounter++;
                 }
             }
@@ -117,15 +119,20 @@ void userScreen(Customer *toLoad) {
             int i = 0;
             cout << "Which booked flight do you want to cancel?" << endl;
             cin >> choice;
-            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end(); iter++) {
+            flightsCounter = 1;
+            bool haventFoundChoiceToErase = true;
+            auto chosenIter = listOfFlights.begin();
+            for(auto iter = listOfFlights.begin(); iter != listOfFlights.end() && haventFoundChoiceToErase; iter++) {
                 if(iter->forUsername == toLoad->userName) {
                     if(flightsCounter == choice) {
-                        cout << "yes" << endl;
-                        listOfFlights.erase(iter);
+                        haventFoundChoiceToErase = false;
+                        chosenIter = iter;
                     }
                     flightsCounter++;
                 }
             }
+
+            listOfFlights.erase(chosenIter);
         }else if(choiceNumber == 5) {
             int insignificant;
             cout << "================================" << endl;
@@ -148,10 +155,6 @@ void userScreen(Customer *toLoad) {
 
     }
     return;
-}
-
-void manageSystem() {
-
 }
 
 int main()
@@ -177,8 +180,7 @@ int main()
         cout << "==============================" << endl;
         cout << "1: Login as existing customer" << endl;
         cout << "2: Create new customer" << endl;
-        cout << "3: Manage system" << endl;
-        cout << "4: Exit" << endl;
+        cout << "3: Exit" << endl;
         cout << "==============================" << endl;
         cin >> choice;
 
@@ -198,9 +200,8 @@ int main()
                         hasntFoundCustomer = false;
                     }else if(iter->password != password) {
                         cout << "Incorrect password please try again" << endl;
+                        hasntFoundCustomer = false;
                     }
-                }else{
-                    cout << iter->userName << endl;
                 }
             }
 
@@ -229,18 +230,20 @@ int main()
             cin >> customerToLoad.cardDetails;
             cout << "Enter passport number: ";
             cin >> customerToLoad.passportNumber;
-            userScreen(&customerToLoad);
-            listOfCustomers.push_back(customerToLoad);
-        }else if(choice == 3) {
-            const string adminPassword = "vomindok";
-            string enteredAdminPassword;
-            cout << "Enter administrator password: ";
-            cin >> enteredAdminPassword;
-            if(enteredAdminPassword == adminPassword) {
-                manageSystem();
-            }else{
-                cout << "Couldn't find user, please create new user" << endl;
+            bool usernameDoesntAlreadyExist = true;
+            for(auto iter = listOfCustomers.begin(); iter != listOfCustomers.end() && usernameDoesntAlreadyExist; iter++) {
+                if(iter->userName == customerToLoad.userName) {
+                    usernameDoesntAlreadyExist = false;
+                }
             }
+
+            if(usernameDoesntAlreadyExist) {
+                userScreen(&customerToLoad);
+                listOfCustomers.push_back(customerToLoad);
+            }else{
+                cout << "User already exists please create a new one" << endl;
+            }
+
         }else{
             hasntExited = false;
         }
