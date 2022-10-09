@@ -79,7 +79,7 @@ void userScreen(Customer *toLoad) {
             }else if(typeOfBooking == "first class") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*125;
             }
-            cout << "Enter the date for flight(day/month): ";
+            cout << "Enter the date for flight(DD/MM): ";
             cin >> flightToLoad.flightDate;
             listOfFlights.push_back(flightToLoad);
         }else if(choiceNumber == 3) {
