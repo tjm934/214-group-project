@@ -73,11 +73,9 @@ void userScreen(Customer *toLoad) {
 				}else if(choiceNumber == 6){
 					cout << "Re-enter card details(in format number;expiry date;cv): ";
 					cin >> toLoad->cardDetails;
-				}
 				}else if(choiceNumber == 7){
 					cout << "Re-enter passport number: ";
 					cin >> toLoad->passportNumber;
-				}
 				}else{
 					dontExitLoop = false;
 				}
