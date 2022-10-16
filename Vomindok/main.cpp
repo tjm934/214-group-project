@@ -25,36 +25,64 @@ void userScreen(Customer *toLoad) {
     }
 
     while(dontExitLoop) {
-        int choiceNumber = 0;
+        int choiceNumber = -1;
         cout << "==============================" << endl;
-        cout << "1: Update details" << endl;
+        cout << "0: Exit" << endl;
+		cout << "1: Update details" << endl;
         cout << "2: Book flight" << endl;
         cout << "3: Upgrade seats" << endl;
         cout << "4: Cancel booking" << endl;
         cout << "5: Purchase in-flight services" << endl;
-        cout << "6: Exit" << endl;
         cout << "==============================" << endl;
 
         cin >> choiceNumber;
         if(choiceNumber == 1) {
-            cout << "Re-enter new username: ";
-            cin >> toLoad->userName;
-            cout << "Re-enter password: ";
-            cin >> toLoad->password;
-            cout << "Re-enter title: ";
-            cin >> toLoad->title;
-            cout << "Re-enter first name: ";
-            cin >> toLoad->firstName;
-            cout << "Re-enter last name: ";
-            cin >> toLoad->lastName;
-            cout << "Re-enter email address: ";
-            cin >> toLoad->emailAddress;
-            cout << "Re-enter phone number(international format): ";
-            cin >> toLoad->phoneNumber;
-            cout << "Re-enter card details(in format number;expiry date;cv): ";
-            cin >> toLoad->cardDetails;
-            cout << "Re-enter passport number: ";
-            cin >> toLoad->passportNumber;
+            while(dontExitLoop) {
+				int choiceNumber = -1;
+				cout << "==============================" << endl;
+				cout << "0: Exit" << endl;
+				cout << "1: Update username" << endl;
+				cout << "2: Update password" << endl;
+				cout << "3: Update title" << endl;
+				cout << "4: Update name" << endl;
+				cout << "5: Update contact details" << endl;
+				cout << "6: Update payment details" << endl;
+				cout << "7: Update passport details" << endl;
+				cout << "==============================" << endl;
+
+				cin >> choiceNumber;
+				if(choiceNumber == 1) {
+					cout << "Re-enter new username: ";
+					cin >> toLoad->userName;
+				}else if(choiceNumber == 2){
+					cout << "Re-enter password: ";
+					cin >> toLoad->password;
+				}else if(choiceNumber == 3){
+					cout << "Re-enter title: ";
+					cin >> toLoad->title;
+				}else if(choiceNumber == 4){
+					 cout << "Re-enter first name: ";
+					cin >> toLoad->firstName;
+					cout << "Re-enter last name: ";
+					cin >> toLoad->lastName;
+				}else if(choiceNumber == 5){
+					cout << "Re-enter email address: ";
+					cin >> toLoad->emailAddress;
+					cout << "Re-enter phone number(international format): ";
+					cin >> toLoad->phoneNumber;
+				}else if(choiceNumber == 6){
+					cout << "Re-enter card details(in format number;expiry date;cv): ";
+					cin >> toLoad->cardDetails;
+				}
+				}else if(choiceNumber == 7){
+					cout << "Re-enter passport number: ";
+					cin >> toLoad->passportNumber;
+				}
+				}else{
+					dontExitLoop = false;
+				}
+			}
+			dontExitLoop = true;
         }else if(choiceNumber == 2) {
             flightToLoad.forUsername = toLoad->userName;
             cout << "Enter start location: ";
@@ -63,7 +91,7 @@ void userScreen(Customer *toLoad) {
             cin >> flightToLoad.endLocation;
             cout << "Enter layover location: ";
             cin >> flightToLoad.layoverLocation;
-            cout << "Enter number of seats: ";
+            cout << "Enter number of seats to book: ";
             cin >> flightToLoad.numberOfSeats;
             cout << "Enter seat code(example A1, first row first seat, for multiple rows A1,G6): ";
             cin >> flightToLoad.seatCode;
@@ -76,7 +104,7 @@ void userScreen(Customer *toLoad) {
                 flightToLoad.price = flightToLoad.flightDurationInHours*75;
             }else if(typeOfBooking == "economy") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*100;
-            }else if(typeOfBooking == "first class") {
+            }else if(typeOfBooking == "first-class") {
                 flightToLoad.price = flightToLoad.flightDurationInHours*125;
             }
             cout << "Enter the date for flight(DD/MM): ";
@@ -115,7 +143,7 @@ void userScreen(Customer *toLoad) {
                     flightsCounter++;
                 }
             }
-            int choice = 0;
+            int choice = -1;
             int i = 0;
             cout << "Which booked flight do you want to cancel?" << endl;
             cin >> choice;
@@ -176,11 +204,11 @@ int main()
     }
 
     while(hasntExited) {
-        int choice = 0;
+        int choice = -1;
         cout << "==============================" << endl;
+        cout << "0: Exit" << endl;
         cout << "1: Login as existing customer" << endl;
         cout << "2: Create new customer" << endl;
-        cout << "3: Exit" << endl;
         cout << "==============================" << endl;
         cin >> choice;
 

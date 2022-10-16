@@ -16,7 +16,7 @@ public:
     string phoneNumber;
     string password;
     string cardDetails;
-    int passportNumber;
+    string passportNumber;
     int frequentFlyerPoints = 0;
 
     void inputCustomerFromFile(ifstream *inputFile) {
